@@ -233,6 +233,14 @@
     });
 
     function resetStars() {
+      const confirmed = confirm('Haluatko varmasti aloittaa alusta? 🌙');
+
+      if (!confirmed) {
+        return;
+      }
+
+      localStorage.removeItem('lastClickDate');
+      lastClickDate = '';
       const stars = document.querySelectorAll('.star');
       stars.forEach(star => {
         star.firstChild.textContent = '☆';

@@ -178,6 +178,7 @@
     const reward = document.getElementById('reward');
 
     let completed = 0;
+    let lastClickDate = localStorage.getItem('lastClickDate') || '';
 
     const numbers = ['1', '2', '3', '4', '5', '6', '7'];
 
@@ -194,10 +195,18 @@
       star.appendChild(numberLabel);
 
       star.addEventListener('click', () => {
+        const today = new Date().toDateString();
+
+        if (lastClickDate === today) {
+          alert('Voit kerätä yhden tähden päivässä 🌙');
+          return;
+        }
         if (star.firstChild.textContent === '☆') {
           star.firstChild.textContent = '⭐';
           numberLabel.style.display = 'block';
           completed++;
+          lastClickDate = today;
+          localStorage.setItem('lastClickDate', today);
 
           if (completed === 7) {
             reward.classList.add('show');

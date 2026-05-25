@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>7 Hyvää Yötä</title>
+  <style>
+    body {
+      font-family: 'Trebuchet MS', Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(to bottom, #ffe4f2, #fff7fc);
+      margin: 0;
+      padding: 16px;
+    }
+
+    h1 {
+      color: #ff4fa3;
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 26px;
+      color: #7a4b6a;
+    }
+
+    .stars {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      margin-top: 30px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      align-items: center;
+    }
+
+    @media (max-width: 700px) {
+      .stars {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stars {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      p {
+        font-size: 20px;
+      }
+
+      .star {
+      font-size: 72px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      user-select: none;
+      background: white;
+      border-radius: 20px;
+      padding: 8px;
+      box-shadow: 0 4px 8px rgba(255, 105, 180, 0.2);
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .star-number {
+      position: absolute;
+      font-size: 28px;
+      font-weight: bold;
+      color: #ff4fa3;
+      display: none;
+    }
+
+    .star:hover {
+      transform: scale(1.1);
+    }
+
+    .done {
+      filter: none;
+    }
+
+    #reward {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.5);
+      font-size: 42px;
+      color: #ff4fa3;
+      font-weight: bold;
+      background: white;
+      padding: 30px;
+      border-radius: 30px;
+      max-width: 80%;
+      box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+      z-index: 1000;
+      opacity: 0;
+    }
+
+    #reward.show {
+      display: block;
+      animation: popIn 0.8s ease forwards;
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: translate(-50%, -50%) scale(0.5) rotate(-10deg);
+        opacity: 0;
+      }
+      60% {
+        transform: translate(-50%, -50%) scale(1.15) rotate(5deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    .confetti {
+      position: fixed;
+      font-size: 40px;
+      animation: fall 3s linear forwards;
+      z-index: 999;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      from {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    button {
+      margin-top: 40px;
+      padding: 14px 28px;
+      font-size: 22px;
+      border: none;
+      border-radius: 20px;
+      background: #ff6fb5;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    button:hover {
+      background: #ff4fa3;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌙 IDA UNET ✨</h1>
+  <p>Klikkaa päivän tähteä hyvän yön jälkeen!</p>
+
+  <div class="stars" id="stars"></div>
+
+  <div id="reward">
+    🎉 Jes! Saat palkinnoksi Hamahelmet! 🌈🦄✨
+  </div>
+
+  <button onclick="resetStars()">Aloita alusta</button>
+
+  <script>
+    const starsContainer = document.getElementById('stars');
+    const reward = document.getElementById('reward');
+
+    let completed = 0;
+
+    const numbers = ['1', '2', '3', '4', '5', '6', '7'];
+
+    
+
+    numbers.forEach((number) => {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.textContent = '☆';
+
+      const numberLabel = document.createElement('div');
+      numberLabel.className = 'star-number';
+      numberLabel.textContent = number;
+      star.appendChild(numberLabel);
+
+      star.addEventListener('click', () => {
+        if (star.firstChild.textContent === '☆') {
+          star.firstChild.textContent = '⭐';
+          numberLabel.style.display = 'block';
+          completed++;
+
+          if (completed === 7) {
+            reward.classList.add('show');
+
+            const emojis = ['🎉', '✨', '🦄', '🌈', '💖'];
+
+            for (let i = 0; i < 25; i++) {
+              const confetti = document.createElement('div');
+              confetti.className = 'confetti';
+              confetti.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+              confetti.style.left = Math.random() * 100 + 'vw';
+              confetti.style.animationDelay = Math.random() * 2 + 's';
+              document.body.appendChild(confetti);
+
+              setTimeout(() => {
+                confetti.remove();
+              }, 3000);
+            }
+          }
+        }
+      });
+
+      starsContainer.appendChild(star);
+    });
+
+    function resetStars() {
+      const stars = document.querySelectorAll('.star');
+      stars.forEach(star => {
+        star.firstChild.textContent = '☆';
+        const number = star.querySelector('.star-number');
+        if (number) {
+          number.style.display = 'none';
+        }
+      });
+
+      completed = 0;
+      reward.classList.remove('show');
+    }
+  </script>
+</body>
+</html>

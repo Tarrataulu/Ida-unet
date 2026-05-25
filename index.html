@@ -200,7 +200,7 @@
 
   <div class="stars" id="stars"></div>
 
-  <div id="reward">
+  <div id="reward" style="display: none;">
     🎉 Jes! Saat palkinnoksi Hamahelmet! 🌈🦄✨
   </div>
 
@@ -245,6 +245,7 @@
           localStorage.setItem('lastClickDate', today);
 
           if (completed === 7) {
+            reward.style.display = 'block';
             reward.classList.add('show');
 
             const emojis = ['🎉', '✨', '🦄', '🌈', '💖'];
@@ -293,6 +294,7 @@
 
       completed = 0;
       reward.classList.remove('show');
+      reward.style.display = 'none';
     }
   </script>
 </body>

@@ -174,6 +174,7 @@
   <button onclick="resetStars()">Aloita alusta</button>
 
   <script>
+    const starSound = new Audio('https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=correct-2-46134.mp3');
     const starsContainer = document.getElementById('stars');
     const reward = document.getElementById('reward');
 
@@ -204,6 +205,8 @@
         if (star.firstChild.textContent === '☆') {
           star.firstChild.textContent = '⭐';
           numberLabel.style.display = 'block';
+          starSound.currentTime = 0;
+          starSound.play();
           completed++;
           lastClickDate = today;
           localStorage.setItem('lastClickDate', today);
@@ -241,6 +244,11 @@
 
       localStorage.removeItem('lastClickDate');
       lastClickDate = '';
+
+      setTimeout(() => {
+        localStorage.removeItem('lastClickDate');
+        lastClickDate = '';
+      }, 100);
       const stars = document.querySelectorAll('.star');
       stars.forEach(star => {
         star.firstChild.textContent = '☆';

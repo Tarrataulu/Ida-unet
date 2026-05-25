@@ -29,12 +29,21 @@
       justify-content: center;
       align-items: center;
       gap: 18px;
-      margin-top: 30px;
+      margin-top: 40px;
       flex-wrap: nowrap;
       overflow-x: auto;
-      padding: 10px;
+      padding: 20px 10px;
       max-width: 100%;
       box-sizing: border-box;
+    }
+
+    .stars::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .stars::-webkit-scrollbar-thumb {
+      background: #ffb6d9;
+      border-radius: 20px;
     }
 
     @media (max-width: 900px) {
@@ -43,73 +52,42 @@
       }
 
       .star {
-        min-width: 100px;
-        min-height: 100px;
-        font-size: 52px;
-      }
-    }
-    }
-    }
-
-    @media (max-width: 600px) {
-      .stars {
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-
-      .star {
-        min-width: 90px;
-        min-height: 90px;
-        font-size: 44px;
-      }
-    }
-
-      .star {
-        min-width: 110px;
-        min-height: 110px;
-        font-size: 48px;
-      }
-    }
-    }
-    }
-
-    @media (max-width: 480px) {
-      .stars {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      h1 {
-        font-size: 34px;
-      }
-
-      p {
-        font-size: 20px;
-      }
-
-      .star {
-      font-size: 56px;
+      width: 110px;
+      height: 110px;
       cursor: pointer;
       transition: transform 0.2s;
       user-select: none;
-      background: white;
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(255, 105, 180, 0.2);
-      min-height: 90px;
-      min-width: 90px;
+      background: linear-gradient(to bottom, #fff0f7, #ffd6eb);
+      border-radius: 30px;
+      box-shadow: 0 6px 14px rgba(255, 105, 180, 0.25);
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      margin: auto;
+      flex-shrink: 0;
+      border: 4px solid white;
+    }
+
+    .star:hover {
+      transform: scale(1.08);
+    }
+
+    .star-icon {
+      font-size: 56px;
+      line-height: 1;
     }
 
     .star-number {
       position: absolute;
       font-size: 28px;
       font-weight: bold;
-      color: #ff4fa3;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
       display: none;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
     }
 
     .star:hover {
@@ -221,12 +199,7 @@
     numbers.forEach((number) => {
       const star = document.createElement('div');
       star.className = 'star';
-      star.textContent = '☆';
-
-      const numberLabel = document.createElement('div');
-      numberLabel.className = 'star-number';
-      numberLabel.textContent = number;
-      star.appendChild(numberLabel);
+      star.innerHTML = '<span class="star-icon">☆</span><span class="star-number" style="display:none;">' + number + '</span>';
 
       star.addEventListener('click', () => {
         const today = new Date().toDateString();
@@ -235,8 +208,11 @@
           alert('Voit kerätä yhden tähden päivässä 🌙');
           return;
         }
-        if (star.firstChild.textContent === '☆') {
-          star.firstChild.textContent = '⭐';
+        const icon = star.querySelector('.star-icon');
+          const numberLabel = star.querySelector('.star-number');
+
+          if (icon.textContent === '☆') {
+          icon.textContent = '⭐';
           numberLabel.style.display = 'block';
           starSound.currentTime = 0;
           starSound.play();
@@ -285,7 +261,9 @@
       }, 100);
       const stars = document.querySelectorAll('.star');
       stars.forEach(star => {
-        star.firstChild.textContent = '☆';
+        const icon = star.querySelector('.star-icon');
+        icon.textContent = '☆';
+
         const number = star.querySelector('.star-number');
         if (number) {
           number.style.display = 'none';

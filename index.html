@@ -144,7 +144,7 @@
   <div class="stars" id="stars"></div>
 
   <div id="reward">
-    🎉 Mahtavaa IDA! Saat palkinnoksi elokuvaillan! 🎬📺🎉✨
+    🎉 Mahtavaa IDA! Pääset muumimaailmaan! 🎉✨
   </div>
 
   <button onclick="resetStars()">Aloita alusta</button>
@@ -161,7 +161,7 @@
   function renderStars() {
     starsContainer.innerHTML = '';
 
-    for (let i = 1; i <= 7; i++) {
+    for (let i = 1; i <= 4; i++) {
       const star = document.createElement('div');
       star.className = 'star';
 
@@ -205,7 +205,7 @@
       starsContainer.appendChild(star);
     }
 
-    if (completed === 7) {
+    if (completed === 4) {
       reward.style.display = 'block';
     } else {
       reward.style.display = 'none';
